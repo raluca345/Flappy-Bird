@@ -11,6 +11,11 @@ public class ConfirmationWindowScript : MonoBehaviour
         {
             Instance = this;
             DontDestroyOnLoad(gameObject);
+            
+            if (confirmationWindow != null)
+            {
+                confirmationWindow.SetActive(false);
+            }
         }
         else
         {
@@ -20,28 +25,20 @@ public class ConfirmationWindowScript : MonoBehaviour
 
     public void ShowWindow()
     {
-        if (confirmationWindow != null)
-        {
-            confirmationWindow.SetActive(true);
-            Time.timeScale = 0; // Pause the game
-        }
-        else
-        {
-            Debug.LogError("Confirmation window is null");
-        }
+        if (confirmationWindow == null) return;
+        if (confirmationWindow.activeSelf) return;
+        
+        confirmationWindow.SetActive(true);
+        Time.timeScale = 0;
     }
 
     public void HideWindow()
     {
-        if (confirmationWindow != null)
-        {
-            confirmationWindow.SetActive(false);
-            Time.timeScale = 1; // Resume the game
-        }
-        else
-        {
-            Debug.LogError("Confirmation window is null");
-        }
+        if (confirmationWindow == null) return;
+        if (!confirmationWindow.activeSelf) return;
+        
+        confirmationWindow.SetActive(false);
+        Time.timeScale = 1;
     }
 
     public void OnQuitButtonClicked()

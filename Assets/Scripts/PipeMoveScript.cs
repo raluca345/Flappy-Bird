@@ -13,15 +13,14 @@ public class PipeMoveScript : MonoBehaviour
 
     void Update()
     {
-        if (!logic.isGameOver)
-        {
-            float speedMultiplier = logic.GetSpeedMultiplier();
-            transform.position += moveSpeed * speedMultiplier * Time.deltaTime * Vector3.left;
+        if (logic.isGameOver) return;
+        
+        float speedMultiplier = logic.GetSpeedMultiplier();
+        transform.position += moveSpeed * speedMultiplier * Time.deltaTime * Vector3.left;
 
-            if (transform.position.x < deadZone)
-            {
-                Destroy(gameObject);
-            }
+        if (transform.position.x < deadZone)
+        {
+            Destroy(gameObject);
         }
     }
 }

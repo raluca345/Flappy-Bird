@@ -17,6 +17,8 @@ public class PipeSpawnScript : MonoBehaviour
 
     void Update()
     {
+        if (logic.isGameOver) return;
+        
         float adjustedSpawnRate = logic.GetAdjustedSpawnRate(baseSpawnRate);
 
         if (timer < adjustedSpawnRate)
@@ -25,11 +27,8 @@ public class PipeSpawnScript : MonoBehaviour
         }
         else
         {
-            if (!logic.isGameOver)
-            {
-                SpawnPipe();
-                timer = 0;
-            }
+            SpawnPipe();
+            timer = 0;
         }
     }
 

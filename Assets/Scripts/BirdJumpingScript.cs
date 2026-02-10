@@ -9,7 +9,6 @@ public class BirdJumpingScript : MonoBehaviour
     private Renderer birdRenderer;
     private float birdHeight;
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         isAlive = true;
@@ -17,17 +16,26 @@ public class BirdJumpingScript : MonoBehaviour
         birdRenderer = GetComponent<Renderer>();
         logic = GameObject.FindGameObjectWithTag("Logic").GetComponent<LogicScript>();
 
-        // Get the height of the bird
         birdHeight = birdRenderer.bounds.size.y;
     }
 
-    // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Escape) && ConfirmationWindowScript.Instance != null)
+        if (Input.GetKeyDown(KeyCode.Escape))
         {
-            ConfirmationWindowScript.Instance.ShowWindow();
+            ConfirmationWindowScript confirmationScript = ConfirmationWindowScript.Instance;
+            
+            if (confirmationScript == null)
+            {
+                confirmationScript = FindFirstObjectByType<ConfirmationWindowScript>(FindObjectsInactive.Include);
+            }
+            
+            if (confirmationScript != null)
+            {
+                confirmationScript.ShowWindow();
+            }
         }
+        
         if ((Input.GetKeyDown(KeyCode.Space) || Input.GetMouseButtonDown(0)) && isAlive)
         {
             birdRigidbody.linearVelocity = Vector2.up * jumpForce;

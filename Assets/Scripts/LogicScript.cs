@@ -12,11 +12,19 @@ public class LogicScript : MonoBehaviour
     private float rainbowTime;
     public bool isGameOver = false;
     public Text highScoreText;
+    
+    private float speedMultiplier = 1.0f;
+    private float adjustedSpawnRate = 2.0f;
+    private float currentBaseSpawnRate = 2.0f;
+    
+    private ParticleSystem cloudsParticleSystem;
 
     public void Awake()
     {
         highScore = PlayerPrefs.GetInt("HighScore", highScore);
         highScoreText.text = "High Score: " + highScore.ToString();
+        
+        cloudsParticleSystem = clouds.GetComponent<ParticleSystem>();
     }
 
     [ContextMenu("Add Score")]
@@ -24,6 +32,9 @@ public class LogicScript : MonoBehaviour
     {
         playerScore += scoreToAdd;
         scoreText.text = playerScore.ToString();
+        
+        UpdateCachedValues();
+        
         if (playerScore > highScore)
         {
             highScore = playerScore;
@@ -38,14 +49,14 @@ public class LogicScript : MonoBehaviour
         gameOverScreen.SetActive(false);
         isGameOver = false;
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
-        clouds.GetComponent<ParticleSystem>().Play();
+        cloudsParticleSystem.Play();
     }
 
     public void GameOver()
     {
         gameOverScreen.SetActive(true);
         isGameOver = true;
-        clouds.GetComponent<ParticleSystem>().Pause();
+        cloudsParticleSystem.Pause();
     }
 
     public void Update()
@@ -75,12 +86,23 @@ public class LogicScript : MonoBehaviour
 
     public float GetSpeedMultiplier()
     {
-        return 1.0f + (playerScore / 50.0f); // Increase speed by 2% for every 10 points
+        return speedMultiplier;
     }
 
     public float GetAdjustedSpawnRate(float baseSpawnRate)
     {
-        return baseSpawnRate / GetSpeedMultiplier(); // Decrease spawn rate as speed increases
+        if (baseSpawnRate != currentBaseSpawnRate)
+        {
+            currentBaseSpawnRate = baseSpawnRate;
+            adjustedSpawnRate = baseSpawnRate / speedMultiplier;
+        }
+        return adjustedSpawnRate;
+    }
+    
+    private void UpdateCachedValues()
+    {
+        speedMultiplier = 1.0f + (playerScore / 50.0f);
+        adjustedSpawnRate = currentBaseSpawnRate / speedMultiplier;
     }
 
 }
