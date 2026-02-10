@@ -21,6 +21,7 @@ public class BirdJumpingScript : MonoBehaviour
 
     void Update()
     {
+        
         if (Input.GetKeyDown(KeyCode.Escape))
         {
             ConfirmationWindowScript confirmationScript = ConfirmationWindowScript.Instance;

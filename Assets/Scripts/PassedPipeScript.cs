@@ -37,5 +37,6 @@ public class PassedPipeScript : MonoBehaviour
             {
                 logic.AddScore(1);
             }
+        }
     }
 }

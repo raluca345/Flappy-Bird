@@ -11,11 +11,6 @@ public class ConfirmationWindowScript : MonoBehaviour
         {
             Instance = this;
             DontDestroyOnLoad(gameObject);
-            
-            if (confirmationWindow != null)
-            {
-                confirmationWindow.SetActive(false);
-            }
         }
         else
         {
