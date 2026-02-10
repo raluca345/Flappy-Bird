@@ -9,11 +9,11 @@ public class WingFlappingScript : MonoBehaviour
     private bool isJumping = false;
     private float fallTimer = 0f;
     public float fallDelay = 0.2f;
-    private Vector3 WingPosition;
+    private Vector3 wingPosition;
 
     void Start()
     {
-        WingPosition = transform.position;
+        wingPosition = transform.position;
         spriteRenderer = GetComponent<SpriteRenderer>();
     }
 
@@ -37,6 +37,6 @@ public class WingFlappingScript : MonoBehaviour
             }
         }
 
-        transform.position = transform.parent.position + WingPosition;
+        transform.position = transform.parent.position + wingPosition;
     }
 }

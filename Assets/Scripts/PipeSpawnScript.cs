@@ -25,11 +25,10 @@ public class PipeSpawnScript : MonoBehaviour
         }
         else
         {
-            if (!logic.isGameOver)
-            {
-                SpawnPipe();
-                timer = 0;
-            }
+            if (logic.isGameOver) return;
+            
+            SpawnPipe();
+            timer = 0;
         }
     }
 
@@ -48,16 +47,13 @@ public class PipeSpawnScript : MonoBehaviour
             for (int i = 0; i < spawnedPipe.transform.childCount; i++) // Including middle (trigger)
             {
                 Renderer pipeRenderer = spawnedPipe.transform.GetChild(i).GetComponent<Renderer>();
-
-                if (pipeRenderer != null)
+                
+                pipeRenderer.material = new Material(pipeRenderer.material)
                 {
-                    pipeRenderer.material = new Material(pipeRenderer.material)
-                    {
-                        color = Color.yellow // Change color safely
-                    };
-                }
+                    color = Color.yellow
+                };
             }
-            spawnedPipe.AddComponent<YellowPipeMarker>(); // Add the marker component to yellow pipes
+            spawnedPipe.AddComponent<YellowPipeMarker>();
         }
     }
 }
